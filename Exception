@@ -1,0 +1,257 @@
+# EXception 실행에러
+1. CheckedException  -> 컴파일단계에서 예외처리 유무를 조사하는 예외
+2. UnCheckedException -> 컴파일단계에서 예외처리 유무를 조사하지 않는 예외
+
+
+NullPointerException
+NumberFormatException
+ArrayIndexOutOfBoundsException
+
+
+/*
+public class FileReader{
+	public FileReader(String fn) throws FileNotFoundException{
+		...
+		if(파일이 없으면)  throw new FileNotFoundException(); 
+	}
+}
+*/
+
+class Main{
+	public static void main(String args[]){
+		try {
+			Exception e1 = new Exception();
+			throw e1;
+		}catch(Exception e2) {
+			System.out.println("예외처리");
+		}
+		System.out.println("정상실행");
+	}
+}
+
+----------------------------------------------------------------
+
+import java.io.*;
+
+class A{
+	static void abc(int n) throws Exception{
+		if(n==0) throw new Exception("제로");
+		System.out.println("정상소스코드1");
+	}
+}
+
+class Main{
+	public static void main(String args[]) {
+		// abc메서드호출문장을 작성하세요.
+		try {
+			//A.abc(100);			
+			A.abc(0);			
+		}catch(Exception e) {
+			System.out.println("예외처리");
+		}
+		System.out.println("정상소스코드2");
+		
+	}
+}
+
+---------------------------------------------------------------------
+
+/*
+public class Integer{
+	public static int parseInt(String s){
+		
+		if(s가 숫자형 문자열이 아니면) throw new NumberFormatException();
+	}
+}
+*/
+
+class Main{
+	public static void main(String args[]){
+		int n = Integer.parseInt("백");
+		
+	}
+}
+
+----------------------------------------------------------------------
+[ex]
+class Main{
+		public static void main(String args[]){
+			throw new Exception();
+		}
+}
+
+[an1]
+class Main{
+		public static void main(String args[])throws Exception{
+		throw new Exception();
+		}
+}
+
+[an2]
+
+class Main{
+		public static void main(String args[]){
+		try{
+			throw new Exception();
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		System.out.println("정상처리");
+}
+
+
+
+}
+
+[ex]
+
+class A extends Exception{
+	A(String msg){ super(msg); }
+}
+class Main{
+	public static void main(String args[]){
+	try{
+		throw new A("폭탄");		
+	}catch(Exception e){
+		System.out.println(e.getMessage()); // 폭탄
+	}
+	System.out.println("정상처리");
+	}
+}
+
+--------------------------------------------------
+
+
+class IdNotFoundException extends Exception{
+	IdNotFoundException(String msg){ super(msg); }
+}
+class IdDb{
+	String[] array={ "aa","bb","cc" };
+	void checkID(String id) throws IdNotFoundException{
+		boolean find=false;
+		for(String s : array)
+			if(id.equals(s)) find=true;
+		if(!find) throw new IdNotFoundException("해당 ID 사용가능");
+	}
+}
+class Main{
+	public static void main(String args[]){
+	try{
+		IdDb db=new IdDb();
+		db.checkID(args[0]);
+		System.out.println("해당ID 있어요");
+	}catch(IdNotFoundException e){
+		System.out.println(e.getMessage());
+	}
+	}
+}
+​
+----------------------------------------------------
+[ex]
+[exec] java Main aaa
+		예외처리1
+		메세지 : 폭탄 1
+[exec] java Main bbb
+		예외처리 2
+		메세지 : 폭탄 2
+[exec] java Main ccc
+		정상처리
+
+class A extends Exception{
+		A(String msg){super(msg);}
+}
+class B extends Exception{
+		B(String msg){super(msg);}
+}
+
+class Main{
+		public static void main(String args[]){
+		try{		
+			switch(args[0]){
+					case"bbb" : throw new A("폭탄1");
+					case"ccc" : throw new B("폭탄2");
+			}
+			System.out.println("정상소스코드");
+		}catch(Exception e){
+				if(e instanceof A)System.out.println("예외처리1");
+				else System.out.println("예외처리2");
+
+				System.out.println("메세지 : "+e.getMessage());
+				
+		}
+		}
+}
+
+------------------------------------------------------
+[ex]
+class A{
+	static void a(){
+		throw new RuntimeException();
+	}
+}
+class Main{
+	public static void main(String args[]){
+		A.a();
+	}
+}
+-->
+class A{
+	static void a() throws RuntimeException{
+		throw new RuntimeException();
+	}
+}
+class Main{
+	public static void main(String args[]) throws RuntimeException{
+		A.a();
+	}
+}
+
+--------------------------------------------------------
+
+import java.io.*;
+class Main{
+	public static void main(String args[]){
+	try{
+		FileReader r=new FileReader("abc.txt");
+		int codeNum=r.read();
+	}catch(FileNotFoundException e){
+		System.out.println(" 'abc.txt' 해당파일이 없어요.");
+	}catch(IOException e){
+		System.out.println(" 네트워크상태가 좋지 않습니다.");
+	}
+	}
+}
+
+------------------------------------------------------------
+[ex]
+[exec]	java Main aa 11
+	로그인성공
+[exec]	java Main aa 123
+	비번오류
+[exec]	java Main dd 44
+	존재하지 않는 ID
+
+class IdNotFoundException extends Exception{
+	IdNotFoundException(String msg){ super(msg); }
+}
+class IdDb{
+	String[] idArray={ "aa","bb","cc" };
+	String[] pwArray={ "11","22","33" };
+	void checkID(String id) throws IdNotFoundException{
+		boolean find=false;
+		for(String s : array)
+			if(id.equals(s)) find=true;
+		if(!find) throw new IdNotFoundException("해당 ID 사용가능");
+	}
+	void login(String id, String pw) 
+		throws IdNotFoundException, PwMismatchException{
+		//here
+	}
+}
+class Main{
+	public static void main(String args[]){
+		//here
+	}
+}
+
+
