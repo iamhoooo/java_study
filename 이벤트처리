@@ -1,0 +1,248 @@
+# java.awt.*
+# 이벤트 처리
+# Exception
+#DB연동
+# MVC패턴을 공부
+# Object클래스
+# reflection
+
+# 이벤트 처리하기
+
+view 화면처리 뷰, 리액트
+
+현업에서 사용하지 않는 java.awt.*를 우선 익힌다.
+
+// 왼쪽 상단 끝이 (0,0)
+[ex] FlowLayout배치관리자
+import java.awt.*;
+class Main{
+	public static void main(String args[]){
+		Button b1=new Button("red");
+		Button b2=new Button("green");
+		Frame f=new Frame();
+		f.setLayout(new FlowLayout()); 
+		f.add(b1);
+		f.add(b2);
+		f.setBounds(100,100,300,300);
+		f.setVisible(true);
+	}
+}
+
+java.lang.Object
+		java.awt.Component
+				-->setBackground
+
+java.awt.Frame
+java.awt.Button
+java.awt.BorderLayout
+java.awt.Color
+
+---------------------------------------------
+
+[ex] BorderLayout배치관리자
+import java.awt.*;
+class Main{
+	public static void main(String args[]){
+		Button b1=new Button("red");
+		Button b2=new Button("green");
+		Frame f=new Frame();
+		f.setLayout(new BorderLayout()); 
+		f.add(b1,BorderLayout.EAST);
+		f.add(b2,"West");
+		f.setBounds(100,100,300,300);
+		f.setVisible(true);
+	}
+}
+
+------------------------------------------------
+
+[ex] setBackground메서드를 이용해서 색상변경하기
+import java.awt.*;
+class Main{
+	public static void main(String args[]){
+		Button b1=new Button("red");
+		Button b2=new Button("green");
+		b1.setBackground(Color.RED);
+		b2.setBackground(Color.GREEN);
+		Frame f=new Frame();
+		f.setBackground(Color.YELLOW);
+		f.setLayout(new BorderLayout()); 
+		f.add(b1,BorderLayout.EAST);
+		f.add(b2,"West");
+		f.setBounds(100,100,300,300);
+		f.setVisible(true);
+	}
+}
+
+--------------------------------------------------
+
+[ex] setBackground메서드를 이용해서 RGB색상 표현하기
+import java.awt.*;
+class Main{
+	public static void main(String args[]){
+		Button b1=new Button("red");
+		Button b2=new Button("green");
+		b1.setBackground(Color.RED);
+		b2.setBackground(Color.GREEN);
+		Frame f=new Frame();
+		f.setBackground(new Color(0xCEF279));
+		f.setLayout(new BorderLayout()); 
+		f.add(b1,BorderLayout.EAST);
+		f.add(b2,"West");
+		f.setBounds(100,100,300,300);
+		f.setVisible(true);
+	}
+}
+
+----------------------------------------------------
+
+[ex]
+import java.awt.*;
+class MyFrame extends Frame{
+		Button b1,b2;
+		MyFrame(){
+			b1 = new Button("red");
+			b2 = new Button("green");
+		}
+		void add(){
+		setLayout(new BorderLayout()); 
+		add(b1,BorderLayout.EAST);
+		add(b2,"West");
+		}
+		void deco(){
+		b1.setBackground(Color.RED);
+		b2.setBackground(Color.GREEN);
+		setBackground(new Color(0xCEF279));// (this.)생략가능
+
+		}
+}
+class Main{
+		public static void main(String args[]){
+				MyFrame f=new MyFrame();
+				f.add(); f.deco();
+				f.setBounds(100,100,300,300);
+				f.setVisible(true);
+
+		}
+}
+
+----------------------------------------------------
+
+[ex] Frame상속하기
+import java.awt.*;
+class MyFrame extends Frame{
+		Button b;
+		TextField field;
+		List list;
+		Choice choice;
+		TextArea area;
+		MyFrame(){
+			b = new Button("red");
+			field = new TextField();
+			list = new List();
+			choice = new Choice();
+			area = new TextArea();
+
+		}
+		void add(){
+		setLayout(new FlowLayout()); 
+		add(b);
+		add(field);
+		list.add("Venus");
+		list.add("Earth");
+		list.add("JavaSoft");
+		list.add("Mercury");
+		add(list);
+		choice.add("Green");
+ 		choice.add("Red");
+		choice.add("Blue");
+		add(choice);
+		add(area);
+
+		add(new Checkbox("one", null, true));
+ 		add(new Checkbox("two"));
+ 		add(new Checkbox("three"));
+		add(new Checkbox("four", cbg2, false));
+		//add(check);
+
+		}
+		void deco(){
+		b.setBackground(Color.RED);
+		setBackground(new Color(0xCEF279));// (this.)생략가능
+
+		}
+}
+class Main{
+	public static void main(String args[]){
+		MyFrame f=new MyFrame();
+		f.add(); f.deco();
+		f.setBounds(100,100,300,300);
+		f.setVisible(true);
+	}
+}
+
+-----------------------------------------------------------
+[ex] 라디오박스 추가 공부
+import java.awt.*;
+class MyFrame extends Frame{
+		Button b;
+		TextField field;
+		List list;
+		Choice choice;
+		TextArea area;
+		Checkbox cb1,cb2,cb3,cb4,cb5;
+		MyFrame(){
+			b = new Button("red");
+			field = new TextField();
+			list = new List();
+			choice = new Choice();
+			area = new TextArea();
+			cb1 = new Checkbox("one", null, true);
+			cb2= new Checkbox("two", null, false);
+			cb3= new Checkbox("three", null, false);
+			CheckboxGroup group = new CheckboxGroup();
+			cb4= new Checkbox("four", group, false);
+			cb5= new Checkbox("five", group, true);
+
+		}
+		void add(){
+		setLayout(new FlowLayout()); 
+		add(b);
+		add(field);
+		list.add("Venus");
+		list.add("Earth");
+		list.add("JavaSoft");
+		list.add("Mercury");
+		add(list);
+		choice.add("Green");
+ 		choice.add("Red");
+		choice.add("Blue");
+		add(choice);
+		add(area);
+		add(cb1);
+		add(cb2);
+		add(cb3);
+		add(cb4);
+		add(cb5);
+
+		cb4.addItemListener(this);
+		cb5.addItemListener(this);
+
+		}
+		void deco(){
+		b.setBackground(Color.RED);
+		setBackground(new Color(0xCEF279));// (this.)생략가능
+
+		}
+}
+class Main{
+	public static void main(String args[]){
+		MyFrame f=new MyFrame();
+		f.add(); f.deco();
+		f.setBounds(100,100,300,300);
+		f.setVisible(true);
+	}
+}
+
+
+
